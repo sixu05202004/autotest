@@ -1,0 +1,63 @@
+<!--<!--{% extends "layout.html" %}-->-->
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>任务管理</h2>
+<p class="lead">查看任务执行情况</p>
+</div>
+</header>
+<!--
+<div class="bs-docs-social">
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <form class="form-search" action="/task/search/" method="get">
+    <input type="text" class="input-medium search-query" id="s" name="s">
+    <button type="submit" class="btn"><i class="icon-search"></i>Search</button>
+    </form>
+    </li>
+  </ul>
+</div>
+-->
+
+<div class="container">
+  <div class="row">
+
+{% from "macros/_paginate.html" import paginate %}
+<div class="span12">
+<hr>
+
+    <table class="table table-bordered table-hover">
+<thead>
+<tr>
+<th>ID</th>
+<th>任务名称</th>
+<th>执行结果</th>
+<th>case总数</th>
+<th>成功case</th>
+<th>失败case</th>
+<th>log</th>
+<th>开始时间</th>
+<th>完成时间</th>
+</tr>
+</thead>
+ {% for taskcount in page_obj.items %}
+    <tbody>
+ 
+        <td>{{taskcount.id}}</td>
+        <td>{{taskcount.task.name}}</td>
+        <td>{{taskcount.result|result}}</td>
+        <td>{{taskcount.case_all}}</td>
+        <td>{{taskcount.case_pass}}</td>
+        <td>{{taskcount.case_fail}}</td>
+        <td><a href= "{{taskcount.result_path}}" target="_blank">"{{taskcount.result_path}}"</a></td>
+        <td>{{taskcount.start_time}}</td>
+        <td>{{taskcount.stop_time}}</td>
+    </tbody>
+  {% endfor %}
+    </table>
+{{ paginate(page_obj, page_url) }}
+
+</div>
+</div>
+</div>
+{% endblock %}

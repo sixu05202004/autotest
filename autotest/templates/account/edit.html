@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>编辑账号</h2>
+
+</div>
+</header>
+
+
+<div class="bs-docs-social">
+<div class="container">
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('index.index')}}"><i class="icon-share-alt"></i>一键返回</a>
+    <li>
+
+  </ul>
+</div>
+</div>
+<br>
+
+<div class="container">
+
+{% from "macros/_forms.html" import render_errors %}
+<div class="row">
+<div class="span8 offset4">
+{% set selected_tab="save" %}
+<hr>
+<span class="label">修改帐号信息</span>
+<div class="bs-docs-example">
+
+<form method="POST" action=".">
+    {{ form.hidden_tag() }}
+
+       <div class="control-group">
+            {{ form.username.label  }}
+            {{ form.username(size=50) }}
+            <span class="help-inline">only words, numbers or caches</span>
+            {{ render_errors(form.username) }}
+          </div>
+
+      <div class="control-group">
+            {{ form.email.label }}
+            {{ form.email(size=50) }}
+            {{ render_errors(form.email) }}
+          </div>
+
+        <div class="control-group">
+        
+            <label class="checkbox" for="email_alerts">
+            {{ form.email_alerts}}{{form.email_alerts.label.text}}
+            </label>
+    
+        </div>
+      <!--<div class="control-group">
+        
+        <label class="checkbox" for="status">
+            {{ form.status}}{{form.status.label.text}}
+          </label>
+        </div>-->
+        
+      <div class="control-group">
+        {{ form.submit }}
+        </div>
+
+
+</form>
+</div>
+<hr>
+<p>
+<a href="{{ url_for('index.index') }}">{{ _('不改了？返回到主页吧！') }}</a>
+</p>
+
+</div>
+</div>
+</div> 
+{% endblock %}

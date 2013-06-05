@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>代码管理</h2>
+<p class="lead">编辑、删除、新增管理代码</p>
+</div>
+</header>
+<div class="bs-docs-social">
+<div class="container">
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('code.showcode')}}"><i class="icon-share-alt"></i>一键返回</a>
+    <li>
+    <li>
+    <a class="btn" href="{{url_for('code.addcode')}}"><i class="icon-plus-sign"></i>一键添加</a>
+    <li>
+
+
+  </ul>
+</div>
+</div>
+<br>
+
+<div class="container">
+  <div class="row">
+    <div class="span3 bs-docs-sidebar">
+    <ul class="nav nav-list bs-docs-sidenav">
+      {% for subnode in nodes %}
+      <li class=""><a href="{{url_for('code.showcode_module', module_id=subnode.id,parent_id=subnode.parent_id)}}"><i class="icon-chevron-right"></i>
+        {{subnode.name}}
+</a>
+</li>
+{% endfor %}
+
+    </ul>
+    </div>
+
+
+<div class="span9">
+
+<script type="text/javascript" charset="utf-8">
+
+      /* Table initialisation */
+      $(document).ready(function() {
+        $('#example_code').dataTable( {
+        /*copy print save settings*/
+        "oTableTools": {
+                         "sSwfPath": "/static/DataTables-1.9.4/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
+                          "aButtons": [
+                          "copy",
+                          "print",
+                          {
+                          "sExtends":    "collection",
+                          "sButtonText": 'Save <span class="caret" />',
+                          "aButtons":    [ "csv", "xls", "pdf" ]
+                            }
+                            ]
+                            },
+
+         /*json source settings*/
+        "sAjaxSource": "{{url_for('api.code_json_module',module_id=module_id)}}",
+
+        /*json data*/
+        "aoColumns": [
+            { "mData": "id"},
+            { "mData": "title" },
+            { "mData": "description" },
+            { "mData": "path" },
+            { "mData": "name" }, 
+            { "mData": "codetype" },
+            { "mData": "code_create_time" },
+            { "mData": "code_update_time" },
+            {
+            "mDataProp": null,
+            "sClass": "center",
+            "sDefaultContent": "<div class='btn-group'><a href='' class='delete btn-mini'>删除</a></div>",
+            "bSortable": false,
+            "bSearchable": false
+        }
+
+        ]
+} );
+
+/*NOTICE: because jinjia2 does not accept js variant, so the following url is static, if used, please change!!!*/
+/* show single code*/
+$('#example_code').on('click', 'a.show1', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[0].childNodes[0].data;
+    if (id)
+    {location.href="/code/showsingle/"+ id + "/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+/*delete code*/
+$('#example_code').on('click', 'a.delete', function (e) {
+  if (!confirm("您确认删除这个代码吗？")) {
+            evt=evt?evt:(window.event?window.event:null);
+            evt.returnValue = false;
+        }
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[0].childNodes[0].data;
+    if (id)
+    {location.href="/code/"+id+"/delcode/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+
+$('#example_code').on('click', 'a.update', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[0].childNodes[0].data;
+    if (id)
+    {location.href="/code/"+id+"/editcode/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+} );
+    
+</script>
+
+
+<table cellspacing="0" cellpadding="0" border="0" class="table table-bordered table-hover table-striped" id="example_code">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>标题</th>
+<th>描述</th>
+<th>路径</th>
+<th>所属用户</th>
+<th>所属模块</th>
+<th>创建时间</th>
+<th>更新时间</th>
+<th>操作</th>
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+{% endblock %}

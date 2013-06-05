@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>用例管理</h2>
+<p class="lead">添加、编辑、删除用例以及生成测试任务</p>
+</div>
+</header>
+<div class="bs-docs-social">
+
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('case.showcase')}}"><i class="icon-share-alt"></i>一键返回</a>
+    </li>
+    <li>
+    <a class="btn" href="{{url_for('case.addcase')}}"><i class="icon-plus-sign"></i>一键添加</a>
+    </li>
+
+
+  </ul>
+
+</div>
+<div class="container">
+  <div class="row">
+    <div class="span3 bs-docs-sidebar">
+    <ul class="nav nav-list bs-docs-sidenav">
+      {% for subnode in nodes %}
+      <li class=""><a href="{{url_for('case.showcase_module', module_id=subnode.id, parent_id=subnode.parent_id)}}"><i class="icon-chevron-right"></i>
+        {{subnode.name}}
+</a>
+</li>
+{% endfor %}
+
+    </ul>
+    </div>
+
+
+<div class="span9">
+<hr>
+
+    <div class="tabbable"> 
+    <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">所有公开的用例</a></li>
+    <li><a href="#tab2" data-toggle="tab">你的私有用例</a></li>
+    <li><a href="#tab3" data-toggle="tab">用例统计情况</a></li>
+    </ul>
+    <div class="tab-content">
+    {% include "case/modulepublic.html" %}
+    {% include "case/moduleprivate.html" %}
+    {% include "stat/case_stat.html" %}
+
+    </div>
+    </div>
+
+
+
+</div>
+</div>
+</div>
+{% endblock %}

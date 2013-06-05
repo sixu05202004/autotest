@@ -1,0 +1,63 @@
+<script type="text/javascript" charset="utf-8">
+
+      /* Table initialisation */
+      $(document).ready(function() {
+        $('#example_task').dataTable( {
+        "sDom": "<'row'<'span4'l><'span8'f>r>t<'row'<'span4'T><'span4'i><'span4'p>>",
+        /*copy print save settings*/
+        "oTableTools": {
+                         "sSwfPath": "/static/DataTables-1.9.4/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
+                          "aButtons": [
+                          "copy",
+                          "print",
+                          {
+                          "sExtends":    "collection",
+                          "sButtonText": 'Save <span class="caret" />',
+                          "aButtons":    [ "csv", "xls", "pdf" ]
+                            }
+                            ]
+                            },
+
+         /*json source settings*/
+        "sAjaxSource": "{{url_for('api.task_json_byauthorid')}}",
+
+        /*json data*/
+        "aoColumns": [
+                        {"mData":"id"},
+                        {"mData":"name"},
+                        {"mData":"description"},
+                        {"mData":"access"},                       
+                        {"mData":"times"},                   
+                        {"mData":"tasktype"},
+                        {"mData":"task_create_time"},
+                        {"mData":"task_update_time"},
+                        {"mData":"hudson"}
+
+        ]
+} );
+} );
+    
+</script>
+
+<div class="tab-pane" id="tab2">
+<table cellspacing="0" cellpadding="0" border="0" class="table table-bordered table-hover table-striped" id="example_task">
+<thead>
+<tr>
+<th>ID</th>
+<th>名称</th>
+<th>描述</th>
+<th>状态</th>
+<th>次数</th>
+<th>所属模块</th>
+<th>创建时间</th>
+<th>更新时间</th>
+<th>Hudson状态</th>
+
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+
+</table>
+</div>

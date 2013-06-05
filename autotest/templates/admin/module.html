@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>添加模块</h2>
+
+</div>
+</header>
+<div class="bs-docs-social">
+<div class="container">
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('admin.showmodule')}}"><i class="icon-share-alt"></i>一键返回</a>
+    <li>
+    <li>
+    <a class="btn" href="{{url_for('admin.addmodule')}}"><i class="icon-plus-sign"></i>一键添加</a>
+    <li>
+    <li>
+  </ul>
+</div>
+</div>
+<br>
+
+<div class="container">
+
+{% from "macros/_forms.html" import render_errors %}
+<div class="row">
+<div class="span8 offset4">
+<hr>
+<span class="label">添加/修改模块信息</span>
+<div class="bs-docs-example">
+<form method="POST" action=".">
+    {{ form.hidden_tag() }}
+
+       <div class="control-group">
+            {{ form.name.label  }}
+            {{ form.name(size=15) }}
+            <span class="help-inline">only words, numbers or caches</span>
+          {{ render_errors(form.name) }}
+          </div>
+
+      <div class="control-group">
+            {{ form.description.label }}
+            {{ form.description(rows=6, cols=30)}}
+          </div>
+
+        <div class="control-group">
+            {{ form.parent_id.label }}
+            {{ form.parent_id }}
+        </div>
+
+        <div class="control-group">
+            {{ form.input_template.label }}
+            {{ form.input_template(rows=6, cols=30)}}
+          </div>
+
+          <div class="control-group">
+            {{ form.output_template.label }}
+            {{ form.output_template(rows=6, cols=30)}}
+          </div>
+
+      <div class="control-group">
+        {{ form.submit }}
+        </div>
+
+
+</form>
+</div>
+<hr>
+<p>
+<a href="{{ url_for('admin.showmodule') }}">{{ _('不改了？那就返回到模块列表吧！') }}</a>
+</p>
+</div>
+</div>
+</div>
+{% endblock %}

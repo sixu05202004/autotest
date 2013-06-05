@@ -1,0 +1,189 @@
+<div class="tab-pane active" id="tab1">
+<script type="text/javascript" charset="utf-8">
+var oTable_public;
+ 
+/* Formating function for row details */
+function fnFormatDetails1 ( nTr )
+{
+    var aData = oTable_public.fnGetData( nTr );
+    var sOut = '<div class="alert alert-info alert-block">';
+    sOut += '<h5>作者:</h5>';
+    sOut += '<p>'+aData.author+'</p>';
+    sOut += '<h5>用例输入:</h5>';
+    sOut += '<p>'+aData.usecase_input+'</p>';
+    sOut += '<h5>用例输出:</h5>';
+    sOut += '<p>'+aData.usecase_output+'</p>';
+    sOut += '<h5>用例状态:</h5>';
+    sOut += '<p>'+aData.access+'</p>';
+    sOut += '</div>';
+     
+    return sOut;
+}
+
+      /* Table initialisation */
+ $(document).ready(function() {
+
+       oTable_public=$('#example_case_public').dataTable( {
+        /*copy print save settings*/
+        "oTableTools": {
+                         "sSwfPath": "/static/DataTables-1.9.4/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
+                          "aButtons": [
+                          "copy",
+                          "print",
+                          {
+                          "sExtends":    "collection",
+                          "sButtonText": 'Save <span class="caret" />',
+                          "aButtons":    [ "csv", "xls", "pdf" ]
+                            }
+                            ]
+                            },
+
+         /*json source settings*/
+        "sAjaxSource": "{{url_for('api.case_json_public')}}",
+
+        /*json data*/
+        "aoColumns": [
+            { "sClass": "center", "bSortable": false, "sDefaultContent":"<img src='/static/img/details_open.png' id='allpublic'>" },
+            { "mData": "checkBox", "bSortable": false},
+            { "mData": "id"},
+            { "mData": "title"},
+            { "mData": "description" },
+            { "mData": "access", "bVisible": false },
+            { "mData": "usecase_input", "bVisible": false },
+            { "mData": "usecase_output", "bVisible": false },
+            { "mData": "casetype" },
+            { "mData": "case_create_time" },
+            { "mData": "case_update_time" },
+            {
+            "mDataProp": null,
+            "sClass": "center",
+            "sDefaultContent": "<div class='btn-group'><a href='' class='delete btn-mini'>删除</a><a href='' class='update btn-mini'>修改</a> <a href='' class='gen btn-mini'>生成</a> <a href='' class='copy btn-mini'>复制</a></div>",
+            "bSortable": false,
+            "bSearchable": false
+        }
+
+        ],
+        "aaSorting": [[2, 'desc']]
+} );
+
+$('#example_case_public').on('click', 'a.gen', function () {
+        var sData = oTable_public.$('input').serialize();
+        if (sData)
+        { $.post("{{url_for('notice.case')}}", { cases: sData }, function (data,status) { 
+            if (data=="OK")
+            {location.href = "{{url_for('task.addtask_case')}}";}
+            else
+            {alert("服务器异常，请在提交任务中重新选择用例!");
+            location.href = "{{url_for('task.addtask')}}";
+             }
+             });}
+        else
+            {alert("用例为空，请选择用例!");}
+        return false;
+     } );
+
+$('#example_case_public').on('click', 'tbody td img', function () {
+        var nTr = $(this).parents('tr')[0];
+        if ( oTable_public.fnIsOpen(nTr) )
+        {
+            /* This row is already open - close it */
+            this.src = "/static/img/details_open.png";
+            oTable_public.fnClose( nTr );
+
+        }
+        else
+        {
+            /* Open this row */
+            this.src = "/static/img/details_close.png";
+            oTable_public.fnOpen( nTr, fnFormatDetails1(nTr), 'details' );
+        }
+    } );
+
+/*NOTICE: because jinjia2 does not accept js variant, so the following url is static, if used, please change!!!*/
+/* show single code*/
+
+$('#example_case_public').on('click', 'a.show1', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[2].childNodes[0].data;
+    if (id)
+    {location.href="/case/showsingle/"+ id + "/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+
+
+
+/*delete code*/
+$('#example_case_public').on('click', 'a.delete', function (e) {
+    if (!confirm("您确认删除这个用例吗？")) {
+            evt=evt?evt:(window.event?window.event:null);
+            evt.returnValue = false;
+        }
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[2].childNodes[0].data;
+    if (id)
+    {location.href="/case/"+id+"/delcase/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+
+$('#example_case_public').on('click', 'a.update', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[2].childNodes[0].data;
+    if (id)
+    {location.href="/case/"+id+"/editcase/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+
+
+$('#example_case_public').on('click', 'a.copy', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[2].childNodes[0].data;
+    if (id)
+    {location.href="/case/"+id+"/copycase/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+
+} );
+    
+</script>
+
+
+<table cellspacing="0" cellpadding="0" border="0" class="table table-bordered table-hover table-striped" id="example_case_public">
+
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>ID</th>
+<th>标题</th>
+<th>描述</th>
+<th>状态</th>
+<th>用例输入</th>
+<th>用例输出</th>
+<th>所属模块</th>
+<th>创建时间</th>
+<th>更新时间</th>
+<th>操作</th>
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+</table>
+
+</div>

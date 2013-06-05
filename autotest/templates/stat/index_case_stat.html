@@ -1,0 +1,56 @@
+
+
+<script type="text/javascript">
+$(document).ready(function () {
+    var options ={
+            chart: {
+                renderTo: 'container',
+
+            },
+            title: {
+                text: '您的公开、私有用例统计情况'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                percentageDecimals: 1
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        formatter: function() {
+                            return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '用例占有率',
+                data: [
+                ]
+            }]
+        };
+        var url =  "{{url_for('stat.case_author')}}";
+        $.getJSON(url,  function(data) {
+
+            options.series[0].data = data["data"];
+
+ 
+            var chart = new Highcharts.Chart(options);
+    });
+        });
+
+
+//]]>  
+</script>
+
+
+<div class="span6 offset3">
+<div id="container" style="width: 750px; height:300px; margin: 0 auto"></div>
+<hr>
+</div>

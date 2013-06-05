@@ -1,0 +1,16 @@
+{% block content %}
+<h2>{{ _('Sorry !') }}</h2>
+<p>
+
+    It looks like an error has occurred. The admins will have been sent a nasty email telling
+    them to fix the problem as soon as possible. However if this issue persists then please 
+  
+<div class="span offset1">
+	请点击浏览器后退按钮回到上一页面或者点击此处
+{%if g.user:%}   
+<a class="btn btn-success" href="/index/"><i class="icon-share-alt"></i>返回首页</a>
+{%else:%}
+<a class="btn btn-success" href="/account/login/"><i class="icon-share-alt"></i>返回首页</a>
+{%endif%} 
+</p>
+{% endblock %}

@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+   <meta charset="utf-8">
+    <title>Auto-M</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet" media="screen">
+    <script src="/static/js/jquery-1.9.1.min.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="/static/css/docs.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/site-navbar.css">
+</head>
+
+<body data-target=".bs-docs-sidebar" data-spy="scroll">
+<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar-inner">
+<div class="container">
+<a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</a>
+<a class="brand" href="#">Welcome to Auto-M!</a>
+</div>
+</div>
+</div>
+
+
+<div class="bs-docs-social">
+<div class="container">
+<ul class="bs-docs-social-buttons">
+</ul>
+</div>
+</div>
+
+
+
+
+<div class="container">
+
+{% from "macros/_forms.html" import render_errors %}
+{% from "macros/_message.html" import render_message %}
+<div class="row clearfix">
+
+
+<br>
+<div class="span8 offset4">
+  <h1 class="tit_1">
+<img alt="用户注册" title="用户注册" src="/static/img/register.gif">
+用户注册
+</h1>
+<hr>
+
+
+{{render_message()}}
+
+{% set selected_tab="login" %}
+{% block content %}
+
+<form class="form-horizontal" method="POST" action=".">
+    {{form.hidden_tag()}}
+     {{ form.next }}
+
+  <div class="control-group">
+   {{ form.username.label }}
+   {{form.username(size=15)}}
+   <span class="help-inline">请输入您真实名字的拼音</span>
+  {{ render_errors(form.username) }}
+  </div>
+
+  <div class="control-group">
+  {{ form.email.label }}
+  {{ form.email(size=15) }}
+  <span class="help-inline">请输入您的公司邮箱</span>
+  {{ render_errors(form.username) }}
+  {{ render_errors(form.email) }}
+  </div>
+
+  <div class="control-group">
+  {{ form.password.label }}
+  {{form.password(size=15)}}
+  {{ render_errors(form.password) }}
+  </div>
+
+   <div class="control-group">
+ {{ form.password_again.label }}
+ {{form.password_again(size=15)}}
+  {{ render_errors(form.password_again) }}
+  </div>
+
+
+  <div class="control-group">
+  <div class="control-group">
+  {{ form.submit }}
+ </div>
+</form>
+
+<hr>
+<p>
+<a href="{{ url_for('account.login', next=form.next.data) }}">{{ _("让我们回到登陆页吧！") }}</a>
+</p>
+
+{% endblock %}
+</div>
+</div>
+</div>
+</div>
+
+
+  </body>
+</html>

@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>任务管理</h2>
+<p class="lead">添加、编辑、删除测试任务</p>
+</div>
+</header>
+<div class="bs-docs-social">
+
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('task.showtask')}}"><i class="icon-share-alt"></i>一键返回</a>
+    </li>
+    <li>
+    <a class="btn" href="{{url_for('task.addtask')}}"><i class="icon-plus-sign"></i>一键添加</a>
+    </li>
+
+  </ul>
+
+</div>
+<div class="container">
+<div class="row">
+<div class="span3 bs-docs-sidebar">
+    <ul class="nav nav-list bs-docs-sidenav">
+    <!--
+      {% for subnode in nodes %}
+      <li class=""><a href="{{url_for('task.showtask_module', module_id=subnode.id,parent_id=subnode.parent_id)}}"><i class="icon-chevron-right"></i>
+        {{subnode.name}}
+</a>
+</li>
+{% endfor %}
+-->
+      {% for parent in parents %}
+      <li class=""><a href="{{url_for('task.showtask_parent', module_id=parent.id)}}"><i class="icon-chevron-right"></i>
+        {{parent.name}}
+</a>
+</li>
+{% endfor %}
+    </ul>
+    </div>
+<div class="span9">
+<hr>
+<span class="label label-success">{{task.name}}的详细信息</span>
+<div class="bs-docs-example">
+<form class="form-horizontal">
+<label class="control-label" for="id">ID:  </label>
+<input class="input-xlarge" id="id" type="text" placeholder="{{task.id}}" disabled>
+<hr>
+<label class="control-label" for="author_id">编写者:</label>
+<input class="input-xlarge" id="author_id" type="text" placeholder="{{task.author.username}}" disabled>
+<hr>
+<label class="control-label" for="moduletype_id">所属模块:</label>
+<input class="input-xlarge" id="moduletype_id" type="text" placeholder="{{task.moduletype.name}}" disabled>
+<hr>
+<label class="control-label" for="name">任务名称:</label>
+<input class="input-xlarge" id="name" type="text" placeholder="{{task.name}}" disabled>
+<hr>
+<label class="control-label" for="case">选择用例:</label>
+<textarea rows="6" cols="60" id="case" type="text" placeholder="{{task.case}}" disabled></textarea>
+<hr>
+<label class="control-label" for="code">选择代码:</label>
+<textarea rows="6" cols="60" id="code" type="text" placeholder="{{task.code}}" disabled></textarea>
+<hr>
+<label class="control-label" for="access">状态:</label>
+<input class="input-xlarge" id="access" type="text" placeholder="{{task.access|access}}" disabled>
+<hr>
+<label class="control-label" for="hudson">hudson</label>
+<input class="input-xlarge" id="hudson" type="text" placeholder="{{task.hudson|hudson}}" disabled>
+<hr>
+<label class="control-label" for="task_excute_times">执行次数:</label>
+<input class="input-xlarge" id="task_excute_times" type="text" placeholder="{{task.task_excute_times}}" disabled>
+<hr>
+<label class="control-label" for="description">描述</label>
+<textarea rows="6" cols="60" id="description" type="text" placeholder="{{task.description}}" disabled></textarea>
+
+<hr>
+<label class="control-label" for="command">执行命令:</label>
+<textarea rows="6" cols="60" id="command" type="text" placeholder="{{task.command}}" disabled></textarea>
+
+<hr>
+<label class="control-label" for="runtime">定时时间:</label>
+<textarea rows="6" cols="60" id="runtime" type="text" placeholder="{{task.runtime}}" disabled></textarea>
+
+<hr>
+<label class="control-label" for="runtime">执行时间:</label>
+<textarea rows="6" cols="60" id="runtime" type="text" placeholder="{{task.timing}}" disabled></textarea>
+
+<hr>
+<label class="control-label" for="svn">svn:</label>
+<textarea rows="6" cols="60" id="svn" type="text" placeholder="{{task.svn}}" disabled></textarea>
+
+<hr>
+<label class="control-label" for="email">邮箱地址:</label>
+<textarea rows="6" cols="60" id="email" type="text" placeholder="{{task.email}}" disabled></textarea>
+
+<hr>
+<label class="control-label" for="email_topic">邮件主题:</label>
+<textarea rows="6" cols="60" id="email_topic" type="text" placeholder="{{task.email_topic}}" disabled></textarea>
+
+<hr>
+<label class="control-label" for="other">其它:</label>
+<textarea rows="6" cols="60" id="other" type="text" placeholder="{{task.other}}" disabled></textarea>
+
+<hr>
+<label class="control-label" for="task_create_time">创建时间</label>
+<input class="input-xlarge" id="task_create_time" type="text" placeholder="{{task.task_create_time}}" disabled>
+
+<hr>
+<label class="control-label" for="task_update_time">更新时间</label>
+<input class="input-xlarge" id="task_update_time" type="text" placeholder="{{task.task_update_time}}" disabled>
+
+<hr>
+</form>
+<a class="btn" href="{{url_for('task.showtask')}}"><i class="icon-share-alt"></i>返回</a>
+<a class="btn" href="{{url_for('task.edittask', task_id=task.id)}}"><i class="icon-share-alt"></i>编辑</a>
+
+
+<hr>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

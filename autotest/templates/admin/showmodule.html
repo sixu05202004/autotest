@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>模块管理</h2>
+<p class="lead">编辑、删除、新增管理模块</p>
+</div>
+</header>
+<div class="bs-docs-social">
+<div class="container">
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('admin.showmodule')}}"><i class="icon-share-alt"></i>一键返回</a>
+    <li>
+    <li>
+    <a class="btn" href="{{url_for('admin.addmodule')}}"><i class="icon-plus-sign"></i>一键添加</a>
+    <li>
+
+  </ul>
+</div>
+</div>
+<br>
+
+<div class="container">
+
+<div class="row">
+<div class="span12">
+<script type="text/javascript" charset="utf-8">
+
+      /* Table initialisation */
+      $(document).ready(function() {
+        $('#example').dataTable( {
+        "sDom": "<'row'<'span4'l><'span8'f>r>t<'row'<'span4'T><'span4'i><'span4'p>>",
+        /*copy print save settings*/
+        "oTableTools": {
+                         "sSwfPath": "/static/DataTables-1.9.4/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
+                          "aButtons": [
+                          "copy",
+                          "print",
+                          {
+                          "sExtends":    "collection",
+                          "sButtonText": 'Save <span class="caret" />',
+                          "aButtons":    [ "csv", "xls", "pdf" ]
+                            }
+                            ]
+                            },
+
+         /*json source settings*/
+        "sAjaxSource": "{{url_for('api.module_json')}}",
+
+        /*json data*/
+        "aoColumns": [
+            { "mData": "id"},
+            { "mData": "name" },
+            { "mData": "description" },
+            { "mData": "parent_id" },
+            { "mData": "type_create_time" },
+            { "mData": "type_update_time" },
+            {
+            "mDataProp": null,
+            "sClass": "center",
+            "sDefaultContent": "<div class='btn-group'><a href='' class='delete btn-mini'>删除</a><a href='' class='update btn-mini'>修改</a></div>",
+            "bSortable": false,
+            "bSearchable": false
+        }
+
+        ]
+} );
+
+/*NOTICE: because jinjia2 does not accept js variant, so the following url is static, if used, please change!!!*/
+
+/*delete user*/
+$('#example').on('click', 'a.delete', function (e) {
+     if (!confirm("删除后此模块下所有的用例、任务和代码也会被删除，您确认删除此模块吗？")) {
+            evt=evt?evt:(window.event?window.event:null);
+            evt.returnValue = false;
+        }
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[0].childNodes[0].data;
+    if (id)
+    {location.href="/admin/"+id+"/delmodule/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+
+$('#example').on('click', 'a.update', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[0].childNodes[0].data;
+    if (id)
+    {location.href="/admin/"+id+"/editmodule/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+} );
+    
+</script>
+
+
+<table cellspacing="0" cellpadding="0" border="0" class="table table-bordered table-hover table-striped" id="example">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>名称</th>
+<th>描述</th>
+<th>父模块</th>
+<th>创建时间</th>
+<th>更新时间</th>
+<th>操作</th>
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+{% endblock %}

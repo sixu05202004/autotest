@@ -1,0 +1,253 @@
+<div class="tab-pane active" id="tab1">
+    <script type="text/javascript" charset="utf-8">
+var oTable_public;
+ 
+/* Formating function for row details */
+function fnFormatDetails_public ( nTr )
+{
+    var aData = oTable_public.fnGetData( nTr );
+    var sOut = '<div class="alert alert-info alert-block">';
+    sOut += '<p>作者：'+aData.author+'</p>';
+    sOut += '<p>shell：'+aData.command+'</p>';
+    sOut += '<p>svn地址：'+aData.svn+'</p>';
+    sOut += '<p>定时时间：'+aData.runtime+'</p>';
+    sOut += '<p>执行次数：'+aData.times+'</p>';
+    sOut += '<p>邮箱地址：'+aData.email+'</p>';
+    sOut += '<p>邮件主题：'+aData.email_topic+'</p>';
+    sOut += '<p>其它：'+aData.other+'</p>';
+    sOut += '<p>状态：'+aData.access+'</p>';
+    sOut += '<p>更新时间：'+aData.task_update_time+'</p>';
+    sOut += '<p>测试用例：'+aData.case+'</p>';
+    sOut += '<p>测试代码：'+aData.code+'</p>';
+    sOut += '</div>';
+     
+    return sOut;
+}
+
+      /* Table initialisation */
+      $(document).ready(function() {
+
+       oTable_public=$('#example_task_public').dataTable( {
+        /*copy print save settings*/
+        "oTableTools": {
+                         "sSwfPath": "/static/DataTables-1.9.4/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
+                          "aButtons": [
+                          "copy",
+                          "print",
+                          {
+                          "sExtends":    "collection",
+                          "sButtonText": 'Save <span class="caret" />',
+                          "aButtons":    [ "csv", "xls", "pdf" ]
+                            }
+                            ]
+                            },
+
+         /*json source settings*/
+        "sAjaxSource": "{{url_for('api.task_json_module_public', module_id=module_id)}}",
+
+        /*json data*/
+        "aoColumns": [
+            { "sClass": "center", "bSortable": false, "sDefaultContent":"<img src='/static/img/details_open.png'>" },
+            { "mData": "id"},
+            { "mData": "author", "bVisible": false },
+            { "mData": "name" },
+            { "mData": "description"},
+            { "mData": "hudson" },
+            { "mData": "times", "bVisible": false },
+            { "mData": "command", "bVisible": false },
+            { "mData": "runtime", "bVisible": false },
+            { "mData": "timing"},
+            { "mData": "svn", "bVisible": false  },
+            { "mData": "tasktype" },
+            { "mData": "email" , "bVisible": false},
+            { "mData": "email_topic" , "bVisible": false},
+            { "mData": "other" , "bVisible": false},
+            { "mData": "access" , "bVisible": false},
+            { "mData": "task_create_time" },
+            { "mData": "task_update_time", "bVisible": false },
+            { "mData": "case", "bVisible": false },
+            { "mData": "code", "bVisible": false },
+            {
+            "mDataProp": null,
+            "sClass": "center",
+            //"sDefaultContent": "<div class='btn-group'><a href='' class='show1 btn-mini'>查看</a><a href='' class='delete btn-mini'>删除</a><a href='' class='update btn-mini'>修改</a><a href='' class='start btn-mini'>启用</a><br><a href='' class='stop btn-mini'>停止</a><a href='' class='run btn-mini'>执行</a><a href='' class='stat btn-mini'>统计</a></div>",
+            "sDefaultContent": "<div class='btn-group'><a href='' class='delete btn-mini'>删除</a><a href='' class='update btn-mini'>修改</a><a href='' class='start btn-mini'>启用</a><br><a href='' class='stop btn-mini'>停止</a><a href='' class='run btn-mini'>执行</a><a href='' class='stat btn-mini'>统计</a></div>",
+            "bSortable": false,
+            "bSearchable": false
+        }
+
+        ],
+        "aaSorting": [[1, 'desc']]
+} );
+
+
+$('#example_task_public').on('click', 'tbody td img', function () {
+        var nTr = $(this).parents('tr')[0];
+        if ( oTable_public.fnIsOpen(nTr) )
+        {
+            /* This row is already open - close it */
+            this.src = "/static/img/details_open.png";
+            oTable_public.fnClose( nTr );
+        }
+        else
+        {
+            /* Open this row */
+            this.src = "/static/img/details_close.png";
+            oTable_public.fnOpen( nTr, fnFormatDetails_public(nTr), 'details' );
+        }
+    } );
+
+/*NOTICE: because jinjia2 does not accept js variant, so the following url is static, if used, please change!!!*/
+/* show single code*/
+$('#example_task_public').on('click', 'a.show1', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[1].childNodes[0].data;
+    if (id)
+    {location.href="/task/showsingle/"+ id + "/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+/*delete code*/
+$('#example_task_public').on('click', 'a.delete', function (e) {
+    if (!confirm("您确认删除这个任务吗？")) {
+            evt=evt?evt:(window.event?window.event:null);
+            evt.returnValue = false;
+        }
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[1].childNodes[0].data;
+    if (id)
+    {
+        $.getJSON("/api/hudson/"+id+"/json/", function(data){
+        if (data.status>=2)
+        {location.href="/task/"+id+"/deltask/";}
+        else
+        {alert("任务正在执行，不能删除");}
+        });
+         
+    }
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+
+$('#example_task_public').on('click', 'a.update', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[1].childNodes[0].data;
+    if (id)
+    {   $.getJSON("/api/hudson/"+id+"/json/", function(data){
+        if (data.status>=2)
+        {location.href="/task/"+id+"/edittask/";}
+        else
+        {alert("任务正在执行，不能修改");}
+        });
+         }
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+$('#example_task_public').on('click', 'a.start', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[1].childNodes[0].data;
+    if (id)
+    {   $.getJSON("/api/hudson/"+id+"/json/", function(data){
+        if (data.status>=3)
+        {location.href="/task/"+id+"/starttask/";}
+        else
+        {alert("任务异常，暂时不能启用！");}
+        });
+         }
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+$('#example_task_public').on('click', 'a.stop', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[1].childNodes[0].data;
+    if (id)
+    {   $.getJSON("/api/hudson/"+id+"/json/", function(data){
+        if (data.status>=4)
+        {location.href="/task/"+id+"/stoptask/";}
+        else
+        {alert("任务异常，暂时不能停用！");}
+        });
+         }
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+$('#example_task_public').on('click', 'a.run', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[1].childNodes[0].data;
+    if (id)
+    {   $.getJSON("/api/hudson/"+id+"/json/", function(data){
+        if (data.status>=4)
+        {location.href="/task/"+id+"/runtask/";}
+        else
+        {alert("任务异常，暂时不能执行！");}
+        });
+         }
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+$('#example_task_public').on('click', 'a.stat', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[1].childNodes[0].data;
+    if (id)
+    {location.href="/task/"+id+"/showstat/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+} );
+    
+</script>
+
+
+<table cellspacing="0" cellpadding="0" border="0" class="table table-bordered table-hover table-striped" id="example_task_public">
+
+<thead>
+<tr>
+<th></th>
+<th>ID</th>
+<th>作者</th>
+<th>标题</th>
+<th>描述</th>
+<th>hudson</th>
+<th>执行次数</th>
+<th>shell</th>
+<th>定时时间</th>
+<th>执行时间</th>
+<th>svn地址</th>
+<th>所属模块</th>
+<th>邮箱地址</th>
+<th>邮件主题</th>
+<th>其它</th>
+<th>状态</th>
+<th>创建时间</th>
+<th>更新时间</th>
+<th>操作</th>
+<th>测试用例</th>
+<th>测试代码</th>
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+</table>
+</div>

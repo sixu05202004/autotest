@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>新增/编辑代码</h2>
+</div>
+</header>
+<div class="bs-docs-social">
+<div class="container">
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('code.showcode')}}"><i class="icon-share-alt"></i>一键返回</a>
+    <li>
+    <li>
+    <a class="btn" href="{{url_for('code.addcode')}}"><i class="icon-plus-sign"></i>一键添加</a>
+    <li>
+
+
+  </ul>
+</div>
+</div>
+
+<br>
+<div class="container">
+  <div class="row">
+    <div class="span3 bs-docs-sidebar">
+    <ul class="nav nav-list bs-docs-sidenav">
+      <!--{% for subnode in nodes %}
+      <li class=""><a href="{{url_for('code.showcode_module', module_id=subnode.id,parent_id=subnode.parent_id)}}"><i class="icon-chevron-right"></i>
+        {{subnode.name}}
+</a>
+</li>
+{% endfor %}-->
+      {% for parent in parents %}
+      <li class=""><a href="{{url_for('code.showcode_parent', module_id=parent.id)}}"><i class="icon-chevron-right"></i>
+        {{parent.name}}
+</a>
+</li>
+{% endfor %}
+
+    </ul>
+    </div>
+
+{% from "macros/_forms.html" import render_errors %}
+{% from "macros/_message.html" import render_message %}
+
+{{render_message()}}
+
+<div class="span9">
+<hr>
+<span class="label">添加/修改代码信息</span>
+<div class="bs-docs-example">
+<form method="POST" action="." enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+       <div class="control-group">
+            {{ form.name.label  }}
+            {{ form.name(size=15) }}
+            <span class="help-inline">only words, numbers or caches</span>
+            {{ render_errors(form.name) }}
+          </div>
+
+      <div class="control-group">
+            {{ form.description.label }}
+            {{ form.description(rows=6, cols=30)}}
+          </div>
+
+        <div class="control-group">
+            {{ form.related_module.label }}
+            {{ form.related_module }}
+        </div>
+        <div class="control-group">
+          {{ form.path.label }}
+          {{ form.path }}
+          <span class="help-inline">only zip or tar accepted</span>
+          {{ render_errors(form.path) }}
+        </div>
+        
+
+      <div class="control-group">
+        {{ form.submit }}
+        </div>
+
+
+</form>
+
+<hr>
+<p>
+<a href="{{ url_for('code.showcode') }}">{{ _('不改了？那返回到代码列表吧!') }}</a>
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}

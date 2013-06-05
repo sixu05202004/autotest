@@ -1,0 +1,25 @@
+{% macro render_success() %}
+
+{% with messages = get_flashed_messages(category_filter=["success"]) %}
+{% if messages %} 
+
+
+<script type="text/javascript" charset="utf-8">
+$._messengerDefaults = {
+    extraClasses: 'messenger-fixed messenger-theme-ice messenger-on-top messenger-on-right'
+};
+{% for success in messages %}
+Messenger().post({
+  message: '{{success}}',
+  type: 'info',
+  showCloseButton: true
+});
+{% endfor %}  
+</script>
+
+
+
+{% endif %}
+
+{% endwith %}
+{% endmacro %}

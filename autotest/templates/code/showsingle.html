@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>代码管理</h2>
+<p class="lead">添加、编辑、删除代码以及生成测试任务</p>
+</div>
+</header>
+<div class="bs-docs-social">
+<div class="container">
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('code.showcode')}}"><i class="icon-share-alt"></i>一键返回</a>
+    <li>
+    <li>
+    <a class="btn" href="{{url_for('code.addcode')}}"><i class="icon-plus-sign"></i>一键添加</a>
+    <li>
+
+
+  </ul>
+</div>
+</div>
+
+<div class="container">
+<div class="row">
+<div class="span3 bs-docs-sidebar">
+    <ul class="nav nav-list bs-docs-sidenav">
+      <!--{% for subnode in nodes %}
+      <li class=""><a href="{{url_for('code.showcode_module', module_id=subnode.id,parent_id=subnode.parent_id)}}"><i class="icon-chevron-right"></i>
+        {{subnode.name}}
+</a>
+</li>
+{% endfor %}-->
+      {% for parent in parents %}
+      <li class=""><a href="{{url_for('code.showcode_parent', module_id=parent.id)}}"><i class="icon-chevron-right"></i>
+        {{parent.name}}
+</a>
+</li>
+{% endfor %}
+
+    </ul>
+    </div>
+<div class="span9">
+<hr>
+<span class="label label-success">{{code.name}}的详细信息</span>
+<div class="bs-docs-example">
+<form class="form-horizontal">
+<label class="control-label" for="id">ID:</label>
+<input class="input-xlarge" id="id" type="text" placeholder="{{code.id}}" disabled>
+<hr>
+<label class="control-label" for="author">编写者:</label>
+<input class="input-xlarge" id="author" type="text" placeholder="{{code.author.username}}" disabled>
+<hr>
+<label class="control-label" for="title">标题:</label>
+<input class="input-xlarge" id="title" type="text" placeholder="{{code.name}}" disabled>
+<hr>
+<label class="control-label" for="modules">所属模块:</label>
+<input class="input-xlarge" id="modules" type="text" placeholder="{{code.relatedmodule.name}}" disabled>
+<hr>
+<label class="control-label" for="code_create_time">创建时间:</label>
+<input class="input-xlarge" id="code_create_time" type="text" placeholder="{{code.code_create_time}}" disabled>
+<hr>
+<label class="control-label" for="code_update_time">修改时间:</label>
+<input class="input-xlarge" id="code_update_time" type="text" placeholder="{{code.code_update_time}}" disabled>
+<hr>
+<!--<label class="control-label" for="access">状态:</label>
+<input class="input-xlarge" id="access" type="text" placeholder="{{code.access|access}}" disabled>
+<hr>-->
+<label class="control-label" for="decp">描述:</label>
+<textarea rows="6" cols="60" id="decp" type="text" placeholder="{{code.description}}" disabled></textarea>
+<hr>
+<!--<label class="control-label" for="precondition">前置条件:</label>
+<textarea rows="6" cols="60" id="precondition" type="text" placeholder="{{code.precondition}}" disabled></textarea>
+<hr>
+<label class="control-label" for="pre_path">前置条件附件地址:</label>
+<input class="input-xlarge" id="pre_path" type="text" placeholder="{{code.precondition_path}}" disabled>
+
+<hr>
+<label class="control-label" for="input">输入:</label>
+<textarea rows="6" cols="60" id="input" type="text" placeholder="{{code.usecode_input}}" disabled></textarea>
+<hr>
+<label class="control-label" for="output">输出结果:</label>
+<textarea rows="6" cols="60" id="output" type="text" placeholder="{{code.usecode_output}}" disabled></textarea>
+<hr>
+<label class="control-label" for="process">处理过程:</label>
+<textarea rows="6" cols="60" id="process" type="text" placeholder="{{code.usecode_process}}" disabled></textarea>
+
+<hr>
+<label class="control-label" for="pro_path">处理过程附件地址:</label>
+<input class="input-xlarge" id="pro_path" type="text" placeholder="{{code.process_path}}" disabled>
+
+<hr>
+<label class="control-label" for="other">其它:</label>
+<textarea rows="6" cols="60" id="other" type="text" placeholder="{{code.other}}" disabled></textarea>
+
+<hr>
+<label class="control-label" for="other_path">其它附件地址:</label>
+<input class="input-xlarge" id="other_path" type="text" placeholder="{{code.other_path}}" disabled>
+
+<hr>-->
+</form>
+
+<div class="row">
+<div class="span offset1">
+<a class="btn btn-success" href="{{url_for('code.showcode')}}"><i class="icon-share-alt"></i>返回</a>
+</div>
+<div class="span2 offset1">
+<a class="btn btn-danger" href="{{url_for('code.editcode', code_id=code.id)}}"><i class="icon-share-alt"></i>编辑</a>
+</div>
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
