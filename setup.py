@@ -14,8 +14,7 @@ setup(
         'Flask-Babel',
         'Flask-Uploads',
         'sqlalchemy',
-        'markdown',
-        'tornado'
+        'markdown'
 
     ]
 
