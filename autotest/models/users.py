@@ -35,8 +35,8 @@ class UserQuery(BaseQuery):
         """
 
         try:
-            user = self.get(int(identity.name))
-        except ValueError:
+            user = self.get(int(identity.id))
+        except (ValueError, TypeError):
             user = None
 
         if user:
