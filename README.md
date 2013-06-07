@@ -8,7 +8,9 @@ Thanks for newsmeme at [http://flask.pocoo.org/community/poweredby/]
 	Because this system based on hudson and hg server, so must provice hudson and hg server url in config.
 	Create a task, it will create a project on hudson;
 	upload code, it will decompression code package, and add all files on hg server.
-
+	
+	flask.ext.principal must be 0.3.5 or higher.
+ 
 ###Install Prerequisite:
 
    python setup.py install
