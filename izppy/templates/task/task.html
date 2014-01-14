@@ -1,0 +1,210 @@
+{% extends "layout_task.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>任务管理</h2>
+<p class="lead">添加、编辑、删除测试任务</p>
+</div>
+</header>
+<div class="bs-docs-social">
+
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('task.showtask')}}"><i class="icon-share-alt"></i>一键返回</a>
+    </li>
+    <li>
+    <a class="btn" href="{{url_for('task.addtask')}}"><i class="icon-plus-sign"></i>一键添加</a>
+    </li>
+  </ul>
+
+</div>
+<div class="container">
+  <div class="row">
+    <div class="span3 bs-docs-sidebar">
+    <ul class="nav nav-list bs-docs-sidenav">
+    <!--
+      {% for subnode in nodes %}
+      <li class=""><a href="{{url_for('task.showtask_module', module_id=subnode.id,parent_id=subnode.parent_id)}}"><i class="icon-chevron-right"></i>
+        {{subnode.name}}
+</a>
+</li>
+{% endfor %}
+-->
+      {% for parent in parents %}
+      <li class=""><a href="{{url_for('task.showtask_parent', module_id=parent.id)}}"><i class="icon-chevron-right"></i>
+        {{parent.name}}
+        </a>
+      </li>
+       {% endfor %}
+    </ul>
+    </div>
+
+
+<div class="span9">
+{% from "macros/_forms.html" import render_errors %}
+{% from "macros/_message.html" import render_message %}
+
+{{render_message()}}
+
+<hr>
+<span class="label label-success">添加/修改任务</span>
+<div class="bs-docs-example">
+<form class="form-horizontal" method="POST" action="." enctype="multipart/form-data">
+    {{form.hidden_tag()}}
+    {{form.next}}
+    <div class="control-group">
+    {{ form.name.label }}
+   {{form.name(size=15)}}
+   <span class="help-inline">only words, numbers or caches</span>
+  {{ render_errors(form.name) }}
+    </div>
+
+  <div class="control-group">
+  {{ form.description.label }}
+  {{ form.description(rows=6, cols=30) }}
+  </div>
+
+    <div class="control-group">  
+    {{form.access.label.text}}    
+            {% for option in form.access %}
+            <label>
+            {{ option }} {{ option.label.text }} 
+            </label>
+            {% endfor %}
+  {{ render_errors(form.access) }}
+    </div>
+    
+
+    <div class="control-group">
+    {{ form.moduletype_id.label}}
+    {{ form.moduletype_id}}
+    </div>
+
+    <div class="control-group">
+    {{ form.machine_id.label}}
+    {{ form.machine_id}}
+    </div>
+
+
+<label for="case_list">选择用例:</label>
+
+
+<table align="center" width="40%" cellspacing="0" class="table table-condensed" id="casetable"> 
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody id="CaseList">
+{% for item in from_case %}
+<tr id="{{item}}">
+<td>
+<input type="text" readonly="readonly" name="case_test" value="{{item}}">
+</td>
+<td>
+<input class="btn" type="button" value="删除" onclick="delCase('{{item}}');">
+</td>
+</tr>
+{% endfor %}
+</tbody> 
+</table> 
+
+
+<div class="accordion" id="accordion_case">
+<a class="btn" data-toggle="collapse" data-parent="#accordion_case" href="#collapseOne">
+ 从用例库中选择用例
+</a>
+</div>
+
+<div id="collapseOne" class="accordion-body collapse">
+<div class="accordion-inner">
+{% include "task/task_choose_case.html" %}
+</div>
+</div>
+
+
+
+
+<label for="code_list">选择代码:</label>
+<table align="center" width="40%" cellspacing="0" class="table table-condensed" id="codetable"> 
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody id="CodeList"></tbody> 
+
+</table> 
+
+
+
+<div class="accordion" id="accordion_code">
+<a class="btn" data-toggle="collapse" data-parent="#accordion_code" href="#collapseOnecode">
+ 从代码库中选择代码
+</a>
+</div>
+
+<div id="collapseOnecode" class="accordion-body collapse">
+<div class="accordion-inner">
+{% include "task/code_choose_case.html" %}
+</div>
+</div>
+
+
+
+
+    <div class="control-group">
+    {{ form.command.label }}
+    {{ form.command(rows=6, cols=30)}}
+    {{ render_errors(form.command) }}
+    </div>
+
+    <div class="control-group">
+    {{ form.runtime.label }}
+    {{ form.runtime(rows=6, cols=30)}}
+    {{ render_errors(form.runtime) }}
+    </div>
+
+    <div class="control-group">
+    {{ form.svn.label }}
+    {{ form.svn(rows=6, cols=30)}}
+    {{ render_errors(form.svn) }}
+    </div>
+
+    <div class="control-group">
+    {{ form.email.label }}
+    {{ form.email(rows=6, cols=30)}}
+    {{ render_errors(form.email) }}
+    </div>
+
+    <div class="control-group">
+    {{ form.email_topic.label}}
+    <!--{{ form.email_topic(rows=6, cols=30,placeholder="Type something")}}-->
+    {{ form.email_topic(rows=6, cols=30)}}
+    {{ render_errors(form.email_topic) }}
+    </div>
+
+    <div class="control-group">
+    {{ form.other.label }}
+    {{ form.other(rows=6, cols=30)}}
+    </div>
+
+     <div class="control-group">
+        {{ form.submit }}
+        </div>
+
+
+</form>
+
+<hr>
+<p>
+<a href="{{ url_for('task.showtask') }}">{{ _('不改了？那就回到任务列表吧!') }}</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}

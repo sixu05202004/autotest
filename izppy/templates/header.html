@@ -1,0 +1,136 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar-inner">
+<div class="container">
+<button class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse" type="button">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+
+
+<a class="brand" href="{{url_for('account.logout')}}">Logout</a>
+<ul class="nav" role="navigation">
+<li><a href="/index/"><i class="icon-home icon-white"></i>首页</a> </li>
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">
+<i class="icon-tasks"></i> 用例管理
+<b class="caret"></b>
+</a>
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">{% for parent in parents %}
+<li role="presentation">
+<a href="{{url_for('case.showcase_parent', module_id=parent.id)}}" tabindex="-1" role="menuitem">{{parent.name}}</a>
+</li>
+{% endfor %}
+</ul>
+</li>
+
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">
+<i class="icon-tasks"></i> 任务管理
+<b class="caret"></b>
+</a>
+
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">{% for parent in parents %}
+<li role="presentation">
+<a href="{{url_for('task.showtask_parent', module_id=parent.id)}}" tabindex="-1" role="menuitem">{{parent.name}}</a>
+</li>
+{% endfor %}
+</ul>
+</li>
+
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">
+<i class="icon-tasks"></i> 代码管理
+<b class="caret"></b>
+</a>
+
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">{% for parent in parents %}
+<li role="presentation">
+<a href="{{url_for('code.showcode_parent', module_id=parent.id)}}" tabindex="-1" role="menuitem">{{parent.name}}</a>
+</li>
+{% endfor %}
+</ul>
+</li>
+
+<!--
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown">
+<i class="icon-search"></i>日志管理
+<b class="caret"></b>
+</a>
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">{% for parent in parents %}
+<li role="presentation">
+<a href="#" tabindex="-1" role="menuitem">{{parent.name}}</a>
+</li>
+{% endfor %}
+</ul>
+</li>
+-->
+
+
+
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">
+<i class="icon-user"></i>帐号管理
+<b class="caret"></b>
+</a>
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">
+<li role="presentation">
+<a href="{{url_for('account.edit')}}" tabindex="-1" role="menuitem">修改帐号</a>
+</li>
+<li role="presentation">
+<a href="{{url_for('account.changepass')}}" tabindex="-1" role="menuitem">密码修改</a>
+</li>
+</ul>
+</li>
+
+{% include "header-tools.html" %}
+{% include "header-docs.html" %}
+
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">
+<i class="icon-info-sign"></i>统计信息
+<b class="caret"></b>
+</a>
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">
+<li role="presentation">
+<a href="{{url_for('stat.case')}}" tabindex="-1" role="menuitem">用例统计</a>
+</li>
+<li role="presentation">
+<a href="{{url_for('stat.task')}}" tabindex="-1" role="menuitem">任务统计</a>
+</li>
+<li role="presentation">
+<a href="{{url_for('stat.index')}}" tabindex="-1" role="menuitem">个人数据统计</a>
+</li>
+</ul>
+</li>
+
+
+
+
+{% if g.user.role == 300:%}
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">
+<i class="icon-wrench"></i>系统管理
+<b class="caret"></b>
+</a>
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">
+<li role="presentation">
+<a href="{{url_for('admin.showuser')}}" tabindex="-1" role="menuitem">用户管理</a>
+</li>
+<li role="presentation">
+<a href="{{url_for('admin.showmodule')}}" tabindex="-1" role="menuitem">模块管理</a>
+</li>
+<li role="presentation">
+<a href="{{url_for('admin.showmachine')}}" tabindex="-1" role="menuitem">机器管理</a>
+</li>
+</ul>
+</li>
+{% endif %}
+
+
+</ul>
+
+</div>
+</div>
+</div>

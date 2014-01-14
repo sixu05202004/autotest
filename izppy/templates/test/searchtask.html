@@ -1,0 +1,159 @@
+{% extends "layout.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>任务管理</h2>
+<p class="lead">添加、编辑、删除测试任务</p>
+</div>
+</header>
+<div class="bs-docs-social">
+
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('task.showtask')}}"><i class="icon-share-alt"></i>一键返回</a>
+    </li>
+    <li>
+    <a class="btn" href="{{url_for('task.addtask')}}"><i class="icon-plus-sign"></i>一键添加</a>
+    </li>
+    <li>
+    <form class="form-search" action="/task/search/" method="get">
+    <input type="text" class="input-medium search-query" id="s" name="s">
+    <button type="submit" class="btn"><i class="icon-search"></i>Search</button>
+    </form>
+  </li>
+
+  </ul>
+
+</div>
+<div class="container">
+  <div class="row">
+    <div class="span3 bs-docs-sidebar">
+    <ul class="nav nav-list bs-docs-sidenav">
+      {% for subnode in nodes %}
+      <li class=""><a href="{{url_for('task.showtask_module', module_id=subnode.id)}}"><i class="icon-chevron-right"></i>
+        {{subnode.name}}
+</a>
+</li>
+{% endfor %}
+
+    </ul>
+    </div>
+
+{% from "macros/_paginate.html" import paginate %}
+<div class="span9">
+<hr>
+
+    <div class="tabbable"> 
+    <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">任务搜索结果</a></li>
+    </ul>
+    <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+    <table class="table table-bordered table-hover">
+<thead>
+<thead>
+<tr>
+<th>ID</th>
+<th>编写者</th>
+<th>所属模块</th>
+<th>任务名称</th>
+<th>hudson</th>
+<th>执行次数</th>
+<th>执行情况</th>
+<th>创建时间</th>
+<th>操作</th>
+<th>统计</th>
+</tr>
+</thead>
+ {% for task in page_obj.items %}
+<tbody>
+ <td>{{task.id}}</td>
+  <td>{{task.author.username}}</td>
+   <td>{{task.moduletype.name}}</td>
+    <td>{{task.name}}</td>
+      <td>{{task.hudson|hudson}}</td>
+         <td>{{task.task_excute_times}}</td>
+          <td><a href="{{url_for('task.showresult', task_id=task.id)}}" target="_blank">"http://result/{{task.name}}"</a></td>
+            <td>{{task.task_create_time}}</td>
+            <td> 
+            <div class="btn-group">
+<button class="btn btn-mini">Action</button>
+<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+<span class="caret"></span>
+</button>
+<ul class="dropdown-menu">
+{% if task.hudson == 1 %}
+<li>
+<a href="{{url_for('task.showsingle', id=task.id)}}">查看</a>
+</li>
+{% elif task.hudson ==2 %}
+<li>
+<a href="{{url_for('task.showsingle', id=task.id)}}">查看</a>
+</li>
+<li>
+<a href="{{url_for('task.deltask', task_id=task.id)}}">删除</a>
+<li>
+<a href="{{url_for('task.edittask', task_id=task.id)}}">修改</a>
+</li>
+{% elif task.hudson ==3 %}
+<li>
+<a href="{{url_for('task.showsingle', id=task.id)}}">查看</a>
+</li>
+<li>
+<a href="{{url_for('task.deltask', task_id=task.id)}}">删除</a>
+<li>
+<a href="{{url_for('task.edittask', task_id=task.id)}}">修改</a>
+</li>
+<li>
+<a href="{{url_for('task.starttask', task_id=task.id)}}">启用</a>
+</li>
+{% else %}
+<li>
+<a href="{{url_for('task.showsingle', id=task.id)}}">查看</a>
+</li>
+<li>
+<a href="{{url_for('task.deltask', task_id=task.id)}}">删除</a>
+<li>
+<a href="{{url_for('task.edittask', task_id=task.id)}}">修改</a>
+</li>
+<li>
+<a href="{{url_for('task.stoptask', task_id=task.id)}}">停用</a>
+</li>
+<li>
+<a href="{{url_for('task.runtask', task_id=task.id)}}">执行</a>
+</li>
+{% endif %}
+</ul>
+</div>
+          </td>
+<td>
+<a href="{{url_for('stat.task', task_id=task.id)}}"  class="btn btn-mini" data-toggle="modal" data-target="#myModal">统计</a>
+</td>
+
+</tbody>
+  {% endfor %}
+</table>
+ {{ paginate(page_obj, page_url) }}
+    </div>
+         <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+
+  <div class="modal-body">
+    
+  </div>
+
+<div class="modal-footer">
+<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+</div>
+
+</div>
+
+    </div>
+    </div>
+
+
+
+</div>
+</div>
+</div>
+{% endblock %}

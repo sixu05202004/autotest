@@ -33,6 +33,24 @@ Thanks for newsmeme at [http://flask.pocoo.org/community/poweredby/]
 	http://localhost:8080/account/signup/
 
 
+####requirement
+
+        'sqlalchemy-0.8.0',
+        'WTForms-1.0.3',
+        'twill-0.9',
+        'Markdown-2.3.1',
+        'Flask-0.9',
+        'Flask-Cache-0.11',
+        'Flask-SQLAlchemy-0.16',
+        'Flask-Principal-0.3.5',
+        'Flask-WTF-0.8.3',
+        'Flask-Mail-0.7.6',
+        'Flask-Testing-0.4',
+        'Flask-Script-0.5.3',
+        'Flask-Babel-0.8',
+        'Flask-Uploads-0.1.3',
+
+
 
 
 

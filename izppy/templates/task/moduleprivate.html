@@ -1,0 +1,179 @@
+<div class="tab-pane" id="tab2">
+    <script type="text/javascript" charset="utf-8">
+var oTable;
+ 
+/* Formating function for row details */
+function fnFormatDetails ( nTr )
+{
+    var aData = oTable.fnGetData( nTr );
+    var sOut = '<div class="alert alert-info alert-block">';
+    sOut += '<p>作者：'+aData.author+'</p>';
+    sOut += '<p>运行机器：'+aData.machine+'</p>';
+    sOut += '<p>shell：'+aData.command+'</p>';
+    sOut += '<p>定时时间：'+aData.runtime+'</p>';
+    sOut += '<p>svn地址：'+aData.svn+'</p>';
+    sOut += '<p>执行次数：'+aData.times+'</p>';
+    sOut += '<p>邮箱地址：'+aData.email+'</p>';
+    sOut += '<p>邮件主题：'+aData.email_topic+'</p>';
+    sOut += '<p>其它：'+aData.other+'</p>';
+    sOut += '<p>状态：'+aData.access+'</p>';
+    sOut += '<p>更新时间：'+aData.task_update_time+'</p>';
+    sOut += '<p>测试用例：'+aData.case+'</p>';
+    sOut += '<p>测试代码：'+aData.code+'</p>';
+    sOut += '</div>';
+     
+    return sOut;
+}
+
+      /* Table initialisation */
+      $(document).ready(function() {
+
+       oTable=$('#example_task_private').dataTable( {
+        /*copy print save settings*/
+        "oTableTools": {
+                         "sSwfPath": "/static/DataTables-1.9.4/extras/TableTools/media/swf/copy_csv_xls_pdf.swf",
+                          "aButtons": [
+                          "copy",
+                          "print",
+                          {
+                          "sExtends":    "collection",
+                          "sButtonText": 'Save <span class="caret" />',
+                          "aButtons":    [ "csv", "xls", "pdf" ]
+                            }
+                            ]
+                            },
+
+         /*json source settings*/
+        "sAjaxSource": "{{url_for('api.task_json_module_private', module_id=module_id)}}",
+
+        /*json data*/
+        "aoColumns": [
+            { "sClass": "center", "bSortable": false, "sDefaultContent":"<img src='/static/img/details_open.png'>" },
+            { "mData": "id"},
+            { "mData": "author", "bVisible": false },
+            { "mData": "name" },
+            { "mData": "description"},
+            { "mData": "hudson"},
+            { "mData": "times", "bVisible": false },
+            { "mData": "command", "bVisible": false },
+            { "mData": "runtime", "bVisible": false },
+            { "mData": "timing"},
+            { "mData": "svn", "bVisible": false },
+            { "mData": "tasktype" },
+            { "mData": "email" , "bVisible": false},
+            { "mData": "email_topic" , "bVisible": false},
+            { "mData": "other" , "bVisible": false},
+            { "mData": "access" , "bVisible": false},
+            { "mData": "task_create_time" },
+            { "mData": "task_update_time", "bVisible": false },
+            { "mData": "case", "bVisible": false },
+            { "mData": "code", "bVisible": false },
+            { "mData": "machine", "bVisible": false },
+            {
+            "mDataProp": null,
+            "sClass": "center",
+            "sDefaultContent": "<div class='btn-group'><a href='' class='delete btn-mini'>删除</a><a href='' class='update btn-mini'>修改</a></div>",
+            "bSortable": false,
+            "bSearchable": false
+        }
+
+        ],
+        "aaSorting": [[1, 'desc']]
+} );
+
+
+$('#example_task_private').on('click', 'tbody td img', function () {
+        var nTr = $(this).parents('tr')[0];
+        if ( oTable.fnIsOpen(nTr) )
+        {
+            /* This row is already open - close it */
+            this.src = "/static/img/details_open.png";
+            oTable.fnClose( nTr );
+        }
+        else
+        {
+            /* Open this row */
+            this.src = "/static/img/details_close.png";
+            oTable.fnOpen( nTr, fnFormatDetails(nTr), 'details' );
+        }
+    } );
+
+/*NOTICE: because jinjia2 does not accept js variant, so the following url is static, if used, please change!!!*/
+/* show single code*/
+$('#example_task_private').on('click', 'a.show1', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[1].childNodes[0].data;
+    if (id)
+    {location.href="/task/showsingle/"+ id + "/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+/*delete code*/
+$('#example_task_private').on('click', 'a.delete', function (e) {
+    if (!confirm("您确认删除这个任务吗？")) {
+            evt=evt?evt:(window.event?window.event:null);
+            evt.returnValue = false;
+        }
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[1].childNodes[0].data;
+    if (id)
+    {location.href="/task/"+id+"/deltask/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+
+$('#example_task_private').on('click', 'a.update', function (e) {
+    e.preventDefault();
+    var id
+    id = $(this).parents('tr')[0].childNodes[1].childNodes[0].data;
+    if (id)
+    {location.href="/task/"+id+"/edittask/";}
+    else
+    {alert("ID does not exist!");}
+
+} );
+
+} );
+    
+</script>
+
+
+<table cellspacing="0" cellpadding="0" border="0" class="table table-bordered table-hover table-striped" id="example_task_private">
+
+<thead>
+<tr>
+<th></th>
+<th>ID</th>
+<th>作者</th>
+<th>标题</th>
+<th>描述</th>
+<th>hudson</th>
+<th>执行次数</th>
+<th>shell</th>
+<th>定时时间</th>
+<th>执行时间</th>
+<th>svn地址</th>
+<th>所属模块</th>
+<th>邮箱地址</th>
+<th>邮件主题</th>
+<th>其它</th>
+<th>状态</th>
+<th>创建时间</th>
+<th>更新时间</th>
+<th>运行机器</th>
+<th>测试代码</th>
+<th>测试用例</th>
+<th>操作</th>
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+</table>
+</div>

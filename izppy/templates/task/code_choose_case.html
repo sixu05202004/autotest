@@ -1,0 +1,63 @@
+<div class="task_choose_code" id="task_choose_code">
+<script type="text/javascript" charset="utf-8">
+var oTable_public_code;
+ 
+/* Table initialisation */
+$(document).ready(function() {
+
+       oTable_public_code=$('#example_code_public').dataTable( {
+         /*json source settings*/
+        "sAjaxSource": "{{url_for('api.code_json_all')}}",
+
+        /*json data*/
+        "aoColumns": [
+            { "mData": "checkBox", "bSortable": false},
+            { "mData": "id"},
+            { "mData": "title"},
+            { "mData": "description" },
+            { "mData": "codetype" },
+            {
+            "mDataProp": null,
+            "sClass": "center",
+            "sDefaultContent": "<div class='btn-group'><a href='' class='update btn-mini'>确定</a></div>",
+            "bSortable": false,
+            "bSearchable": false
+            }
+        ],
+        "aaSorting": [[1, 'desc']]
+} );
+
+
+$('#example_code_public').on('click', 'a.update', function (e) {
+
+    code = oTable_public_code.$('input').serialize().split('&');
+    addNewCode(code);
+    clearall();
+    $('#collapseOnecode').collapse('hide');
+    return false;
+} );
+
+
+} );
+    
+</script>
+
+
+<table cellspacing="0" cellpadding="0" border="0" class="table table-bordered table-hover table-striped" id="example_code_public">
+
+<thead>
+<tr>
+<th><input id="selectcodeall" type="checkbox" onclick="selectcodeAll();"></th>
+<th>ID</th>
+<th>标题</th>
+<th>描述</th>
+<th>所属模块</th>
+<th>操作</th>
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+</table>
+
+</div>

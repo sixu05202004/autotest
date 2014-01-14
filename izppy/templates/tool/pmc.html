@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>工具箱</h2>
+<p class="lead">提供测试各种辅助工具</p>
+</div>
+</header>
+
+<div class="bs-docs-social">
+
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('index.index')}}"><i class="icon-share-alt"></i>一键返回</a>
+    </li>
+  </ul>
+
+</div>
+
+<div class="container">
+{% from "macros/_forms.html" import render_errors %}
+{% from "macros/_message.html" import render_message %}
+
+{{render_message()}}
+<div class="row">
+<div class="span8 offset4">
+
+<div class="bs-docs-example">
+<p class="text-success">PMC redis 数据生成</p>
+<form method="POST" action="." enctype="multipart/form-data">
+        {{form.hidden_tag()}}
+        {{form.next}}
+      <div class="control-group">
+            {{ form.host.label  }}
+            {{ form.host(size=25) }}
+            {{ render_errors(form.host) }}
+      </div>
+
+      <div class="control-group">   
+            {{ form.port.label }}
+            {{ form.port(size=25)}}
+            {{ render_errors(form.port) }}
+      </div>
+
+        <div class="control-group">
+        {{ form.db.label}}
+        {{ form.db}}
+        </div>
+      <div class="control-group">   
+            {{ form.password.label }}
+            {{ form.password(size=25)}}
+      </div>
+
+            <div class="control-group">   
+            {{ form.url.label }}
+            {{ form.url(size=25)}}
+            {{ render_errors(form.url) }}
+      </div>
+
+     <div class="control-group">   
+            {{ form.context.label }}
+            {{ form.context(rows=15, cols=30)}}
+            
+      </div>
+
+      <div class="control-group">
+        {{ form.submit }}
+        </div>
+
+
+</form>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

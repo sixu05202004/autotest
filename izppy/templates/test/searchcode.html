@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>代码管理</h2>
+<p class="lead">添加、编辑、删除代码以及生成测试任务</p>
+</div>
+</header>
+<div class="bs-docs-social">
+
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('code.showcode')}}"><i class="icon-share-alt"></i>一键返回</a>
+    </li>
+    <li>
+    <a class="btn" href="{{url_for('admin.showuser')}}"><i class="icon-play"></i>一键生成</a>
+    </li>
+    <li>
+    <a class="btn" href="{{url_for('code.addcode')}}"><i class="icon-plus-sign"></i>一键添加</a>
+    </li>
+    <li>
+    <form class="form-search" action="/code/search/" method="get">
+    <input type="text" class="input-medium search-query" id="s" name="s">
+    <button type="submit" class="btn"><i class="icon-search"></i>Search</button>
+    </form>
+  </li>
+
+  </ul>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="span3 bs-docs-sidebar">
+    <ul class="nav nav-list bs-docs-sidenav">
+      {% for subnode in nodes %}
+      <li class=""><a href="{{url_for('code.showcode_module', module_id=subnode.id)}}"><i class="icon-chevron-right"></i>
+        {{subnode.name}}
+</a>
+</li>
+{% endfor %}
+
+    </ul>
+    </div>
+
+{% from "macros/_forms.html" import render_errors %}
+{% from "macros/_message.html" import render_message %}
+<div class="span9">
+<hr>
+
+    <div class="tabbable"> 
+    <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">代码搜索结果</a></li>
+    </ul>
+    <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+    <table class="table table-bordered table-hover">
+<thead>
+<thead>
+<tr>
+<th>ID</th>
+<th>编写者</th>
+<th>标题</th>
+<th>描述</th>
+<th>所属模块</th>
+<th>创建时间</th>
+<th>操作</th>
+</tr>
+</thead>
+ {% for code in page_obj.items %}
+<tbody>
+ 
+  <td>{{code.id}}</td>
+   <td>{{code.author.username}}</td>
+    <td>{{code.name}}</td>
+     <td>{{code.description}}</td>
+            <td>{{code.relatedmodule.name}}</td>
+            <td>{{code.code_create_time}}</td>
+          <td> 
+            <div class="btn-group">
+<button class="btn btn-mini">Action</button>
+<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+<span class="caret"></span>
+</button>
+<ul class="dropdown-menu">
+<li>
+<a href="{{url_for('code.showsingle', id=code.id)}}">查看</a>
+</li>
+<li>
+<a href="{{url_for('code.delcode', code_id=code.id)}}">删除</a>
+</li>
+<li>
+<a href="{{url_for('code.addcode')}}">添加</a>
+</li>
+<li>
+<a href="{{url_for('code.editcode', code_id=code.id)}}">修改</a>
+</li>
+</ul>
+</div>
+          </td>
+
+
+</tbody>
+  {% endfor %}
+</table>
+ {{ paginate(page_obj, page_url) }}
+    </div>
+
+    </div>
+    </div>
+
+
+
+</div>
+</div>
+</div>
+{% endblock %}

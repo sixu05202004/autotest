@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>任务情况统计</h2>
+<p class="lead">所有公开任务的统计信息</p>
+</div>
+</header>
+<div class="bs-docs-social">
+<div class="container">
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('task.showtask')}}"><i class="icon-share-alt"></i>一键返回</a>
+    <li>
+
+  </ul>
+</div>
+
+</div>
+<br>
+<div class="container">
+<div class="row">
+
+
+
+<script type="text/javascript" src="/static/Highcharts/js/highcharts.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function () {
+    var options ={
+            chart: {
+                renderTo: 'container4',
+
+            },
+            title: {
+                text: '公开任务各模块统计情况'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                percentageDecimals: 1
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        formatter: function() {
+                            return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '模块占有率',
+                data: [
+                ]
+            }]
+        };
+        var url =  "{{url_for('stat.task_public')}}";
+        $.getJSON(url,  function(data) {
+
+            options.series[0].data = data["data"];
+
+ 
+            var chart = new Highcharts.Chart(options);
+    });
+        });
+
+ 
+</script>
+
+
+<div class="span8 offset2">
+<div id="container4" style="width: 800px; height:500px;  margin: -1 auto"></div>
+</div>
+
+
+
+
+</div>
+</div>
+
+{% endblock %}

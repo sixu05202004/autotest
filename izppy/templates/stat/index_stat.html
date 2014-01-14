@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>个人数据统计</h2>
+<p class="lead">创建的用例、任务以及代码的统计信息</p>
+</div>
+</header>
+<div class="bs-docs-social">
+<div class="container">
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('index.index')}}"><i class="icon-share-alt"></i>一键返回</a>
+    <li>
+  </ul>
+</div>
+
+</div>
+<br>
+<div class="container">
+<div class="row">
+
+<script type="text/javascript" src="/static/Highcharts/js/highcharts.js"></script>
+
+{% include "stat/index_case_stat.html" %}
+{% include "stat/index_task_stat.html" %}
+{% include "stat/index_code_stat.html" %}
+
+</div>
+
+</div>
+
+
+{% endblock %}

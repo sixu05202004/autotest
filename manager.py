@@ -1,4 +1,6 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 """
     manager.py
     ~~~~~~~~~~~
@@ -9,10 +11,18 @@
     :license: BSD, see LICENSE for more details.
 """
 from flask.ext.script import Server, Manager, prompt_bool
-from autotest.application import setup_app
-from autotest.extensions import db
-from autotest.models.users import User
+from izppy.application import setup_app
+from izppy.extensions import db
+from izppy.models.users import User
 import uuid
+
+"""
+usage: provide a command for izppy.
+python manager.py runserver: use to run a flask development server.
+python manager.py createall: use to create all database tables. But MUST create databese first.
+python manager.py dropall: use to drop all database tables.
+python manager.py createuse: use to create a user.(use uuid module)
+"""
 
 manager = Manager(setup_app())
 manager.add_command("runserver", Server('0.0.0.0', port=5000))
@@ -20,10 +30,11 @@ manager.add_command("runserver", Server('0.0.0.0', port=5000))
 
 @manager.option('-r', '--role', dest='role', default="member")
 def createuse(role):
+    "create a user."
     user = User()
     info = unicode(uuid.uuid4())
     user.username, user.email, user.password = info.split('-')[:3]
-    user.email = user.email + u"@autotest.com"
+    user.email = user.email + u"@izptec.com"
     password = info.split('-')[2]
     if role == "admin":
         user.role = User.ADMIN
@@ -51,6 +62,7 @@ def dropall():
 
     if prompt_bool("Are you sure ? You will lose all your data !"):
         db.drop_all()
+
 
 if __name__ == "__main__":
     manager.run()

@@ -1,0 +1,19 @@
+
+<script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+        $('a.case_parent').on('click', function () {
+        var id;
+        id = $(this).attr('id');
+        if (id)
+        {location.href="{{url_for('case.showcase_parent', module_id=id)}}"}
+        else
+        {}
+
+
+url_for('case.showcase_parent', module_id=parent.id)}}
+
+} );
+
+
+} );
+</script>

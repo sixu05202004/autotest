@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+   <meta charset="utf-8">
+    <title>IZP AutoTest</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="/static/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="/static/css/docs2.1.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/site-navbar.css">
+</head>
+
+<body data-target=".bs-docs-sidebar" data-spy="scroll">
+<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar-inner">
+<div class="container">
+<button class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse" type="button">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+
+<a class="brand" href="{{url_for('account.logout')}}">Logout</a>
+<ul class="nav" role="navigation">
+<li><a href="/index/"><i class="icon-home icon-white"></i>首页</a></li>
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">
+<i class="icon-tasks"></i>用例管理
+<b class="caret"></b>
+</a>
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">{% for parent in parents %}
+<li role="presentation">
+<a href="{{url_for('case.showcase_parent', module_id=parent.id)}}" tabindex="-1" role="menuitem">{{parent.name}}</a>
+</li>
+{% endfor %}
+</ul>
+</li>
+
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">
+<i class="icon-tasks"></i> 任务管理
+<b class="caret"></b>
+</a>
+
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">{% for parent in parents %}
+<li role="presentation">
+<a href="{{url_for('task.showtask_parent', module_id=parent.id)}}" tabindex="-1" role="menuitem">{{parent.name}}</a>
+</li>
+{% endfor %}
+</ul>
+</li>
+
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">
+<i class="icon-tasks"></i> 代码管理
+<b class="caret"></b>
+</a>
+
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">{% for parent in parents %}
+<li role="presentation">
+<a href="{{url_for('code.showcode_module', module_id=parent.id)}}" tabindex="-1" role="menuitem">{{parent.name}}</a>
+</li>
+{% endfor %}
+</ul>
+</li>
+
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">
+<i class="icon-search"></i>日志管理
+<b class="caret"></b>
+</a>
+
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">{% for parent in parents %}
+<li role="presentation">
+<a href="#" tabindex="-1" role="menuitem">{{parent.name}}</a>
+</li>
+{% endfor %}
+</ul>
+</li>
+
+
+
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">
+<i class="icon-user"></i>帐号管理
+<b class="caret"></b>
+</a>
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">
+<li role="presentation">
+<a href="{{url_for('account.edit')}}" tabindex="-1" role="menuitem">修改帐号</a>
+</li>
+<li role="presentation">
+<a href="{{url_for('account.changepass')}}" tabindex="-1" role="menuitem">密码修改</a>
+</li>
+</ul>
+</li>
+
+<li class="dropdown">
+<a id="drop1" class="dropdown-toggle" data-toggle="dropdown" role="button" href="#">
+<i class="icon-wrench"></i>系统管理
+<b class="caret"></b>
+</a>
+<ul id="menu2" class="dropdown-menu" aria-labelledby="drop5" role="menu">
+<li role="presentation">
+<a href="{{url_for('admin.showuser')}}" tabindex="-1" role="menuitem">用户管理</a>
+</li>
+<li role="presentation">
+<a href="{{url_for('admin.showmodule')}}" tabindex="-1" role="menuitem">模块管理</a>
+</li>
+<li role="presentation">
+<a href="{{url_for('admin.showmachine')}}" tabindex="-1" role="menuitem">机器管理</a>
+</li>
+</ul>
+</li>
+
+
+</ul>
+
+</div>
+</div>
+</div>
+{% block content %}{% endblock %}
+
+<footer class="footer">
+<div class="container">
+<ul class="footer-links">
+<li>
+<p>© 2013 Company, Inc. ·</p>
+</li>
+<li>
+<a target="_blank" href="#">关于</a>
+</li>
+<li>
+<a target="_blank" href="{{url_for('about.feedback')}}">问题反馈</a>
+</li>
+<li>
+<a target="_blank" href="{{url_for('about.release')}}">版本更新情况</a>
+</li>
+<li>
+<a href="#">Back to top</a>
+</li>
+</div>
+</footer>
+
+
+<script src="/static/js/jquery-1.9.1.min.js"></script>
+<script src="/static/js/holder.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/application.js"></script>
+  </body>
+</html>

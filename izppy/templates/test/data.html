@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <link rel="shortcut icon" type="image/ico" href="/static/DataTables-1.9.4/media/images/favicon.ico" />
+    <script src="/static/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" language="javascript" src="/static/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+    <title>DataTables live example</title>
+    <style type="text/css">
+      @import "/static/DataTables-1.9.4/media/css/demo_page.css";
+      @import "/static/DataTables-1.9.4/media/css/demo_table_jui.css";
+      @import "/static/DataTables-1.9.4/examples/examples_support/themes/smoothness/jquery-ui-1.8.4.custom.css";
+    </style>
+    
+      
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+    $('#example').dataTable( {
+      "bJQueryUI": true,
+        "sPaginationType": "full_numbers"
+    } );
+} );
+</script>
+</head>
+  <body id="dt_example">
+    <div id="container">
+      <h1>Live example</h1>
+
+      <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+        <thead>
+          <tr>
+            <th>Rendering engine</th>
+            <th>Browser</th>
+            <th>Platform(s)</th>
+            <th>Engine version</th>
+            <th>CSS grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd gradeX">
+            <td>Trident</td>
+            <td>Internet Explorer 4.0</td>
+            <td>Win 95+</td>
+            <td class="center"> 4</td>
+            <td class="center">X</td>
+          </tr>
+          <tr class="even gradeC">
+            <td>Trident</td>
+            <td>Internet Explorer 5.0</td>
+            <td>Win 95+</td>
+            <td class="center">5</td>
+            <td class="center">C</td>
+          </tr>
+          <tr class="odd gradeA">
+            <td>Trident</td>
+            <td>Internet Explorer 5.5</td>
+            <td>Win 95+</td>
+            <td class="center">5.5</td>
+            <td class="center">A</td>
+          </tr>
+          <tr class="even gradeA">
+            <td>Trident</td>
+            <td>Internet Explorer 6</td>
+            <td>Win 98+</td>
+            <td class="center">6</td>
+            <td class="center">A</td>
+          </tr>
+          
+          <tr class="gradeA">
+            <td>Webkit</td>
+            <td>S60</td>
+            <td>S60</td>
+            <td class="center">413</td>
+            <td class="center">A</td>
+          </tr>
+          <tr class="gradeA">
+            <td>Presto</td>
+            <td>Opera 7.0</td>
+            <td>Win 95+ / OSX.1+</td>
+            <td class="center">-</td>
+            <td class="center">A</td>
+          </tr>
+          <tr class="gradeA">
+            <td>Presto</td>
+            <td>Opera 7.5</td>
+            <td>Win 95+ / OSX.2+</td>
+            <td class="center">-</td>
+            <td class="center">A</td>
+          </tr>
+          <tr class="gradeA">
+            <td>Presto</td>
+            <td>Opera 8.0</td>
+            <td>Win 95+ / OSX.2+</td>
+            <td class="center">-</td>
+            <td class="center">A</td>
+          </tr>
+          <tr class="gradeA">
+            <td>Presto</td>
+            <td>Opera 8.5</td>
+            <td>Win 95+ / OSX.2+</td>
+            <td class="center">-</td>
+            <td class="center">A</td>
+          </tr>
+          <tr class="gradeA">
+            <td>Presto</td>
+            <td>Opera 9.0</td>
+            <td>Win 95+ / OSX.3+</td>
+            <td class="center">-</td>
+            <td class="center">A</td>
+          </tr>
+          <tr class="gradeA">
+            <td>Presto</td>
+            <td>Opera 9.2</td>
+            <td>Win 88+ / OSX.3+</td>
+            <td class="center">-</td>
+            <td class="center">A</td>
+          </tr>
+          <tr class="gradeA">
+            <td>Presto</td>
+            <td>Opera 9.5</td>
+            <td>Win 88+ / OSX.3+</td>
+            <td class="center">-</td>
+            <td class="center">A</td>
+          </tr>
+         
+          <tr class="gradeC">
+            <td>Misc</td>
+            <td>IE Mobile</td>
+            <td>Windows Mobile 6</td>
+            <td class="center">-</td>
+            <td class="center">C</td>
+          </tr>
+          <tr class="gradeC">
+            <td>Misc</td>
+            <td>PSP browser</td>
+            <td>PSP</td>
+            <td class="center">-</td>
+            <td class="center">C</td>
+          </tr>
+          <tr class="gradeU">
+            <td>Other browsers</td>
+            <td>All others</td>
+            <td>-</td>
+            <td class="center">-</td>
+            <td class="center">U</td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+  </body>
+</html>

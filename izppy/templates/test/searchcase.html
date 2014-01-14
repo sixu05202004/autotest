@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+{% block content %}
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>用例管理</h2>
+<p class="lead">添加、编辑、删除用例以及生成测试任务</p>
+</div>
+</header>
+<div class="bs-docs-social">
+
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('case.showcase')}}"><i class="icon-share-alt"></i>一键返回</a>
+    </li>
+    <li>
+    <a class="btn" href="{{url_for('admin.showuser')}}"><i class="icon-play"></i>一键生成</a>
+    </li>
+    <li>
+    <a class="btn" href="{{url_for('case.addcase')}}"><i class="icon-plus-sign"></i>一键添加</a>
+    </li>
+    <li>
+    <form class="form-search" action="/case/search/" method="get">
+    <input type="text" class="input-medium search-query" id="s" name="s">
+    <button type="submit" class="btn"><i class="icon-search"></i>Search</button>
+    </form>
+  </li>
+
+  </ul>
+
+</div>
+<div class="container">
+  <div class="row">
+    <div class="span3 bs-docs-sidebar">
+    <ul class="nav nav-list bs-docs-sidenav">
+      {% for subnode in nodes %}
+      <li class=""><a href="{{url_for('case.showcase_module', module_id=subnode.id)}}"><i class="icon-chevron-right"></i>
+        {{subnode.name}}
+</a>
+</li>
+{% endfor %}
+
+    </ul>
+    </div>
+
+{% from "macros/_paginate.html" import paginate %}
+<div class="span9">
+<hr>
+
+    <div class="tabbable"> 
+    <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">用例搜索结果</a></li>
+    </ul>
+    <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+    <table class="table table-bordered table-hover">
+<thead>
+<thead>
+<tr>
+<th>ID</th>
+<th>编写者</th>
+<th>标题</th>
+<th>描述</th>
+<!--<th>前提</th>
+<th>过程</th>-->
+<th>输入</th>
+<th>预期输出</th>
+<th>所属模块</th>
+<th>创建时间</th>
+<th>操作</th>
+</tr>
+</thead>
+ {% for case in page_obj.items %}
+<tbody>
+ 
+  <td>{{case.id}}</td>
+   <td>{{case.author.username}}</td>
+    <td>{{case.title}}</td>
+     <td>{{case.description}}</td>
+      <!--<td>{{case.precondition}}</td>
+      <td>{{case.usecase_process}}</td>-->
+           <td>{{case.usecase_input}}</td>
+           <td>{{case.usecase_output}}</td>
+       
+            <td>{{case.casetype.name}}</td>
+            <td>{{case.case_create_time}}</td>
+          <td> 
+            <div class="btn-group">
+<button class="btn btn-mini">Action</button>
+<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+<span class="caret"></span>
+</button>
+<ul class="dropdown-menu">
+<li>
+<a href="{{url_for('case.showsingle', id=case.id)}}">查看</a>
+</li>
+<li>
+<a href="{{url_for('case.delcase', case_id=case.id)}}">删除</a>
+</li>
+<li>
+<a href="{{url_for('case.addcase')}}">添加</a>
+</li>
+<li>
+<a href="{{url_for('case.editcase', case_id=case.id)}}">修改</a>
+</li>
+</ul>
+</div>
+          </td>
+
+
+</tbody>
+  {% endfor %}
+</table>
+ {{ paginate(page_obj, page_url) }}
+    </div>
+
+    </div>
+    </div>
+
+
+
+</div>
+</div>
+</div>
+{% endblock %}

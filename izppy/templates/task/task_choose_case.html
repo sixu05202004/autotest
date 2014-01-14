@@ -1,0 +1,65 @@
+<div class="task_choose_case" id="task_choose_case">
+<script type="text/javascript" charset="utf-8">
+var oTable_public;
+
+/* Table initialisation */
+$(document).ready(function() {
+
+       oTable_public=$('#example_case_public').dataTable( {
+         /*json source settings*/
+
+        "sAjaxSource": "{{url_for('api.case_json_public')}}",
+
+        /*json data*/
+        "aoColumns": [
+            { "mData": "checkBox", "bSortable": false},
+            { "mData": "id"},
+            { "mData": "title"},
+            { "mData": "description"},
+            { "mData": "casetype" },
+            {
+            "mDataProp": null,
+            "sClass": "center",
+            "sDefaultContent": "<div class='btn-group'><a href='' class='update btn-mini'>确定</a></div>",
+            "bSortable": false,
+            "bSearchable": false
+        }
+        ],
+        "aaSorting": [[1, 'desc']]
+} );
+
+$('#example_case_public').on('click', 'a.update', function (e) {
+
+    /*document.getElementById('copy').innerHTML = oTable_public.$('input').serialize();*/
+    test = oTable_public.$('input').serialize().split('&');
+    addNewCase(test);
+    clearall();
+    $('#collapseOne').collapse('hide');
+
+        return false;
+} );
+
+
+} );
+    
+</script>
+
+
+<table cellspacing="0" cellpadding="0" border="0" class="table table-bordered table-hover table-striped" id="example_case_public">
+
+<thead>
+<tr>
+<th><input id="selectall" type="checkbox" onclick="selectAll();"></th>
+<th>ID</th>
+<th>标题</th>
+<th>描述</th>
+<th>所属模块</th>
+<th>操作</th>
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+</table>
+
+</div>

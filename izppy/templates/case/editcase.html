@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<header id="overview" class="jumbotron subhead">
+<div class="container">
+<h2>用例管理</h2>
+<p class="lead">添加、编辑、删除用例以及生成测试任务</p>
+</div>
+</header>
+<div class="bs-docs-social">
+
+  <ul class="bs-docs-social-buttons">
+    <li>
+    <a class="btn" href="{{url_for('case.showcase')}}"><i class="icon-share-alt"></i>一键返回</a>
+    </li>
+    <li>
+    <a class="btn" href="{{url_for('case.addcase')}}"><i class="icon-plus-sign"></i>一键添加</a>
+    </li>
+
+  </ul>
+
+</div>
+<div class="container">
+  <div class="row">
+    <div class="span3 bs-docs-sidebar">
+    <ul class="nav nav-list bs-docs-sidenav">
+      <!--{% for subnode in nodes %}
+      <li class=""><a href="{{url_for('case.showcase_module', module_id=subnode.id,parent_id=subnode.parent_id)}}"><i class="icon-chevron-right"></i>
+        {{subnode.name}}
+</a>
+</li>
+{% endfor %}-->
+      {% for parent in parents %}
+      <li class=""><a href="{{url_for('case.showcase_parent', module_id=parent.id)}}"><i class="icon-chevron-right"></i>
+        {{parent.name}}
+</a>
+</li>
+{% endfor %}
+
+    </ul>
+    </div>
+
+
+<div class="span9">
+{% from "macros/_forms.html" import render_errors %}
+{% from "macros/_message.html" import render_message %}
+<hr>
+<span class="label label-success">添加/修改用例</span>
+<div class="bs-docs-example">
+<form class="form-horizontal" method="POST" action="." enctype="multipart/form-data">
+    {{form.hidden_tag()}}
+    {{form.next}}
+    <div class="control-group">
+    {{ form.title.label }}
+   {{form.title(size=15)}}
+   <span class="help-inline">only words, numbers or caches</span>
+  {{ render_errors(form.title) }}
+    </div>
+
+  <div class="control-group">
+  {{ form.module_type.label }}
+  {{ form.module_type }}
+  </div>
+
+  <div class="control-group">
+  {{ form.description.label }}
+  {{ form.description(rows=6, cols=30)}}
+  </div>
+
+  <div class="control-group">  
+  {{form.access.label.text}}    
+  {% for option in form.access %}
+  <label>
+  {{ option }} {{ option.label.text }} 
+  </label>
+  {% endfor %}
+  </div>
+    <div class="control-group">
+    {{ form.pre.label }}
+    {{ form.pre(rows=6, cols=30)}}
+    </div>
+
+  
+    <div class="control-group">
+    {{ form.usecase_input.label }}
+    {{ form.usecase_input(rows=6, cols=30)}}
+    </div>
+
+    <div class="control-group">
+    {{ form.usecase_output.label }}
+    {{ form.usecase_output(rows=6, cols=30)}}
+    </div>
+
+    <div class="control-group">
+    {{ form.other.label }}
+    {{ form.other(rows=6, cols=30)}}
+    </div>
+  
+    <div class="control-group">
+    {{ form.submit }}
+    </div>
+
+
+</form>
+<hr>
+<p>
+<a href="{{ url_for('case.showcase') }}">{{ _('不改了？那返回到用例列表吧!') }}</a>
+</p>
+
+</div>
+
+</div>
+</div>
+
+</div>
+{% endblock %}
