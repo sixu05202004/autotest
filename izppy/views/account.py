@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 #-*- coding: utf-8 -*-
 """
     account.py
@@ -36,7 +39,7 @@ def login():
 
             identity_changed.send(current_app._get_current_object(),
                                   identity=Identity(user.id))
-            #need add next url
+            # need add next url
             flash(u"welcome {0}".format(user.username), "success")
             return redirect(url_for('index.index'))
         else:
@@ -59,7 +62,7 @@ def signup():
                               identity=Identity(user.id))
 
         flash(u"welcome {0}".format(user.username), "success")
-        #need add next url
+        # need add next url
         return redirect(url_for('index.index'))
 
     return render_template('account/signup.html', form=form)
@@ -68,6 +71,9 @@ def signup():
 @account.route("/logout/")
 def logout():
     flash(u"You are logout", "success")
+    # Remove session keys set by Flask-Principal
+    for key in ('identity.id', 'identity.auth_type'):
+        session.pop(key, None)
     identity_changed.send(current_app._get_current_object(),
                           identity=AnonymousIdentity())
     return redirect(url_for('account.login'))
@@ -88,7 +94,7 @@ def changepass():
         user.user_update_time = datetime.now()
         db.session.commit()
         flash(u"Your password has been changed, "
-                "please log in again", "success")
+              "please log in again", "success")
 
         return redirect(url_for("account.login"))
     return render_template('account/password.html', form=form, parents=parents)
