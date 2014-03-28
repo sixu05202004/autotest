@@ -25,7 +25,7 @@ class defaultconfig():
     '''
     # configuration mysql--- for prodict
     SQLALCHEMY_DATABASE_URI = "mysql://%s:%s@%s/%s" % \
-        ('root', 'root', '10.0.2.53', 'izppy')
+        ('root', 'root', '127.0.0.1', 'izppy')
 
     # the secret key
     SECRET_KEY = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
